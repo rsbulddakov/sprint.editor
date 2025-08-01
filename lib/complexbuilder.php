@@ -77,6 +77,7 @@ class ComplexBuilder
         }
 
         Asset::getInstance()->addJs('/bitrix/admin/sprint.editor/assets/complex_builder.js');
+        Asset::getInstance()->addString("<link href='/bitrix/admin/sprint.editor/assets/complex_builder.css' rel='stylesheet' type='text/css'>");
     }
 
     protected static function getGroupPath($groupname, $islocal): string
