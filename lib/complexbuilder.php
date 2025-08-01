@@ -51,7 +51,7 @@ class ComplexBuilder
             );
             $blocksToolbar[] = [
                 'title'  => GetMessage('SPRINT_EDITOR_group_' . $groupname),
-                'blocks' => self::sortByNum($filteredBlocks, 'sort'),
+                'blocks' => self::sortByStr($filteredBlocks, 'title'),
             ];
         }
 
@@ -154,6 +154,15 @@ class ComplexBuilder
     {
         usort($input, function ($a, $b) use ($key) {
             return ($a[$key] < $b[$key]) ? -1 : 1;
+        });
+
+        return $input;
+    }
+
+    protected static function sortByStr($input, $key)
+    {
+        usort($input, function ($a, $b) use ($key) {
+            return strcmp($a[$key], $b[$key]);
         });
 
         return $input;
