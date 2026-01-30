@@ -6,6 +6,7 @@ use Sprint\Editor\Tools\Rutube;
 use Sprint\Editor\Tools\UploadMp4;
 use Sprint\Editor\Tools\Vimeo;
 use Sprint\Editor\Tools\Vkontakte;
+use Sprint\Editor\Tools\Vkvideo;
 use Sprint\Editor\Tools\Youtube;
 use Sprint\Editor\Tools\Coub;
 
@@ -28,6 +29,7 @@ class Video
             Vimeo::class,
             Rutube::class,
             Vkontakte::class,
+            Vkvideo::class,
             UploadMp4::class,
             Coub::class,
         ];

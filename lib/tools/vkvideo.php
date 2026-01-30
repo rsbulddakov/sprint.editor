@@ -2,12 +2,12 @@
 
 namespace Sprint\Editor\Tools;
 
-class Vkontakte
+class Vkvideo
 {
     static public function getVideoCode($url, $default = '')
     {
         $matches = [];
-        if (preg_match('%vk.com/(?:video|clip)((-)?[0-9_]+)%i', $url, $matches)) {
+        if (preg_match('%vkvideo.ru/(?:video|clip)((-)?[0-9_]+)%i', $url, $matches)) {
             return $matches[1];
         }
         return $default;
@@ -25,7 +25,7 @@ class Vkontakte
             [$oid, $videoId] = explode('_', $code);
 
             return sprintf(
-                '<iframe src="https://vk.com/video_ext.php?oid=%s&id=%s&hd=2" width="%s" height="%s" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" allowfullscreen></iframe>',
+                '<iframe src="https://vkvideo.ru/video_ext.php?oid=%s&id=%s&hd=2" width="%s" height="%s" allow="autoplay; encrypted-media; fullscreen; picture-in-picture;" allowfullscreen></iframe>',
                 $oid,
                 $videoId,
                 $width,
