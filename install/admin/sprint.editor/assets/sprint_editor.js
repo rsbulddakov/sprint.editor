@@ -582,19 +582,7 @@ var sprint_editor = {
     },
 
     safeStringify: function (data) {
-        data = JSON.stringify(data);
-
-        data = data.replace(/\\n/g, "\\n")
-            .replace(/\\'/g, "\\'")
-            .replace(/\\"/g, '\\"')
-            .replace(/\\&/g, "\\&")
-            .replace(/\\r/g, "\\r")
-            .replace(/\\t/g, "\\t")
-            .replace(/\\b/g, "\\b")
-            .replace(/\\f/g, "\\f")
-            .replace(/([\uE000-\uF8FF]|\uD83C[\uDC00-\uDFFF]|\uD83D[\uDC00-\uDFFF]|\uD83E[\uDD10-\uDDFF])/g, '');
-
-        return data;
+        return JSON.stringify(data).replace(/[\uE000-\uF8FF]/g, "");
     },
 
     createInstance: function ($, currentEditorParams, currentEditorValue) {

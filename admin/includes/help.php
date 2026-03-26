@@ -13,7 +13,7 @@ $isSettinsPage = strpos($APPLICATION->GetCurPage(), 'settings.php');
             </div>
             <div class="sp-help-text">
                 <?php if ($isSettinsPage): ?>
-                    <a href="/bitrix/admin/sprint_editor.php?showpage=support&lang=<?= LANGUAGE_ID ?>"><?= GetMessage('SPRINT_EDITOR_SUPPORT') ?></a>
+                    <a href="/bitrix/admin/sprint_editor.php?showpage=complex_builder&lang=<?= LANGUAGE_ID ?>"><?= GetMessage('SPRINT_EDITOR_COMPLEX_BUILDER') ?></a>
                 <?php else: ?>
                     <a href="/bitrix/admin/settings.php?mid=<?= Module::ID ?>&mid_menu=1&lang=<?= LANGUAGE_ID ?>"><?= GetMessage('SPRINT_EDITOR_OPTIONS') ?></a>
                 <?php endif; ?>
@@ -46,6 +46,13 @@ $isSettinsPage = strpos($APPLICATION->GetCurPage(), 'settings.php');
                 <br/>
                 <a href="https://t.me/sprint_editor" target="_blank">
                     https://t.me/sprint_editor
+                </a>
+            </div>
+            <div class="sp-help-text">
+                <?= GetMessage('SPRINT_EDITOR_SUPPORT') ?>
+                <br/>
+                <a href="https://andreyryabin.github.io/sprint_editor/" target="_blank">
+                    https://andreyryabin.github.io/sprint_editor/
                 </a>
             </div>
         </div>

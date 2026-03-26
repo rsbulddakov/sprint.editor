@@ -42,17 +42,6 @@ if (Module::getDbOption('show_trash_files') == 'yes') {
             ),
     ];
 }
-if (Module::getDbOption('show_support') == 'yes') {
-    $items[] = [
-        'text' => GetMessage('SPRINT_EDITOR_SUPPORT'),
-        'url'  => 'sprint_editor.php?' . http_build_query(
-                [
-                    'lang'     => LANGUAGE_ID,
-                    'showpage' => 'support',
-                ]
-            ),
-    ];
-}
 
 if (empty($items)) {
     return [];

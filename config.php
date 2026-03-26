@@ -18,11 +18,6 @@
         'DEFAULT' => 'yes',
         'TYPE'    => 'checkbox',
     ],
-    'show_support'         => [
-        'TITLE'   => GetMessage('SPRINT_EDITOR_SHOW_SUPPORT'),
-        'DEFAULT' => 'yes',
-        'TYPE'    => 'checkbox',
-    ],
     'show_trash_files'     => [
         'TITLE'   => GetMessage('SPRINT_EDITOR_SHOW_TRASH_FILES'),
         'DEFAULT' => 'no',

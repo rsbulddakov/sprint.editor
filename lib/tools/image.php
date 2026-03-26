@@ -130,15 +130,30 @@ class Image
         return $aImage;
     }
 
-    static protected function urlencodePath($path)
+    static protected function urlencodePath($url)
     {
-        $url = parse_url($path);
-        $path = str_replace("\\", "/", $url["path"]);
+        $path = parse_url($url, PHP_URL_PATH);
+
         $parts = explode("/", $path);
-        $partsEncoded = [];
-        foreach ($parts as $part) {
-            array_push($partsEncoded, rawurlencode(urldecode($part)));
+
+        foreach ($parts as &$part) {
+            $part = rawurlencode(urldecode($part));
         }
-        return implode("/", $partsEncoded);
+
+        return str_replace($path, implode("/", $parts), $url);
     }
+
+    static protected function unparse_url($parts): string
+    {
+        return (isset($parts['scheme']) ? "{$parts['scheme']}://" : '')
+            . ($parts['user'] ?? '')
+            . (isset($parts['pass']) ? ":{$parts['pass']}" : '')
+            . (($parts['user'] ?? $parts['pass'] ?? '') ? '@' : '')
+            . ($parts['host'] ?? '')
+            . (isset($parts['port']) ? ":{$parts['port']}" : '')
+            . ($parts['path'] ?? '')
+            . (isset($parts['query']) ? "?{$parts['query']}" : '')
+            . (isset($parts['fragment']) ? "#{$parts['fragment']}" : '');
+    }
+
 }
