@@ -48,6 +48,11 @@
     border: 1px solid #c3c3c3;
     margin: 10px 0;
 }
+.sp-medialib-elements {
+    padding: 10px;
+    border: 1px solid #c3c3c3;
+    margin: 10px 0;
+}
 
 .sp-properties {
     width: 400px;

@@ -1,30 +1,17 @@
-<?php /** @var $block array */ ?><?php
-$images = Sprint\Editor\Blocks\MedialibElements::getImages(
-    $block, [
-    'width'  => 300,
-    'height' => 300,
-    'exact'  => 0,
-], [
-        'width'  => 1024,
-        'height' => 768,
-        'exact'  => 0,
-    ]
-);
-?><?php if (!empty($images)) { ?>
-    <div class="sp-gallery">
-        <div class="sp-gallery-items">
-            <?php foreach ($images as $image) { ?>
-                <div class="sp-gallery-item">
-                    <a data-fancybox="gallery" class="sp-gallery-item-img-wrapper fancy" rel="media-gallery" href="<?= $image['DETAIL_SRC'] ?>">
-                        <img alt="<?= $image['DESCRIPTION'] ?>" src="<?= $image['SRC'] ?>">
-                        <?php if (!empty($image['DESCRIPTION'])) { ?>
-                            <div class="sp-gallery-item-text">
-                                <div class="sp-gallery-item-text-content"><?= $image['DESCRIPTION'] ?></div>
-                            </div>
-                        <?php } ?>
-                    </a>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-<?php } ?>
+<?php /** @var $block array */
+/** @var $this SprintEditorBlocksComponent */ ?><?php
+
+if (empty($block['medialib_type']) || $block['medialib_type'] === 'image') {
+    $this->includeBlock($block, 'medialib_images.php');
+    return;
+}
+
+$elements = Sprint\Editor\Blocks\MedialibElements::getElements($block);
+?>
+<div class="sp-medialib-elements">
+    <ul>
+        <?php foreach ($elements as $aItem) { ?>
+            <li><a href="<?= $aItem['SRC'] ?>"><?= $aItem['NAME'] ?></a></li>
+        <?php } ?>
+    </ul>
+</div>

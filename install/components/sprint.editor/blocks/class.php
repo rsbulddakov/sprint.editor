@@ -7,7 +7,7 @@ use Sprint\Editor\PackBuilder;
 class SprintEditorBlocksComponent extends CBitrixComponent
 {
     protected $includedBlocks = 0;
-    protected $layoutIndex    = 0;
+    protected $layoutIndex = 0;
     protected $resourcesCache = [];
     protected $preparedBlocks = [];
 
@@ -279,21 +279,19 @@ class SprintEditorBlocksComponent extends CBitrixComponent
         return true;
     }
 
-    public function includeBlock($block)
+    public function includeBlock($block, $templateName = '')
     {
-        $root = Module::getDocRoot();
+        $templateFile = $this->findResource($templateName ?: $block['name'] . '.php');
 
-        $path = $this->findResource($block['name'] . '.php');
-
-        if (!$path) {
-            $path = $this->findResource('dump.php');
+        if (!$templateFile) {
+            $templateFile = $this->findResource('dump.php');
         }
 
-        if (!$path) {
+        if (!$templateFile) {
             return false;
         }
 
-        include($root . $path);
+        include(Module::getDocRoot() . $templateFile);
 
         $this->includedBlocks++;
 

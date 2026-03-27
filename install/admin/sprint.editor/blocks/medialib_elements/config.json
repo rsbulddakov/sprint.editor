@@ -1,7 +1,9 @@
 {
-  "title": "Медиабиблиотека. Изображения",
+  "title": "Медиабиблиотека. Элементы",
   "sort": "800",
   "templates": [
-    "select.html"
+    "select.html",
+    "images.html",
+    "elements.html"
   ]
 }

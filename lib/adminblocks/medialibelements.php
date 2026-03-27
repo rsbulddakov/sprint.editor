@@ -11,6 +11,8 @@ class MedialibElements
 
     public function __construct()
     {
+        $medialibType = $_REQUEST['medialib_type'] ?? 'image';
+
         $ids = !empty($_REQUEST['element_ids']) ? $_REQUEST['element_ids'] : [];
         $ids = array_map(
             function ($val) {
@@ -29,6 +31,7 @@ class MedialibElements
             'limit'         => 10,
             'collection_id' => $ibid,
             'element_ids'   => $ids,
+            'medialib_type' => $medialibType,
         ];
     }
 
@@ -40,7 +43,7 @@ class MedialibElements
         $source = [];
 
         $collections = Medialib::GetCollections([
-            'type' => 'image',
+            'medialib_type' => $this->params['medialib_type'],
         ]);
 
         $collections = array_map(function ($item) {
@@ -51,52 +54,47 @@ class MedialibElements
         }, $collections);
 
         if ($this->params['collection_id'] > 0) {
-            $source = Medialib::GetElements(
+            $res = Medialib::GetElements(
                 [
                     'collection_id' => $this->params['collection_id'],
-                ], [
+                    'medialib_type' => $this->params['medialib_type'],
+                ],
+                [
                     'page_size' => $this->params['limit'],
                     'page_num'  => $this->params['page'],
                 ]
             );
 
-            $pageCnt = $source['page_count'];
-            $pageNum = $source['page_num'];
-
-            $source = array_map(function ($item) {
-                return [
-                    'src' => $item['SRC'],
-                    'id'  => $item['ID'],
-                ];
-            }, $source['items']);
+            $pageCnt = $res['page_count'];
+            $pageNum = $res['page_num'];
+            $source = $res['items'];
         }
 
         if (!empty($this->params['element_ids'])) {
-            $elements = Medialib::GetElements([
-                'id' => $this->params['element_ids'],
+            $res = Medialib::GetElements([
+                'id'            => $this->params['element_ids'],
+                'medialib_type' => $this->params['medialib_type'],
             ]);
 
-            $elements = array_map(function ($item) {
-                return [
-                    'src' => $item['SRC'],
-                    'id'  => $item['ID'],
-                ];
-            }, $elements['items']);
+            $elements = $res['items'];
         }
 
         header('Content-type: application/json; charset=utf-8');
         echo json_encode(
             Locale::convertToUtf8IfNeed(
                 [
-                    'collections'   => $collections,
-                    'elements'      => $elements,
-                    'source'        => $source,
-                    'collection_id' => $this->params['collection_id'],
-                    'element_ids'   => $this->params['element_ids'],
-                    'page_num'      => $pageNum,
-                    'page_cnt'      => $pageCnt,
+                    'collections'    => $collections,
+                    'elements'       => $elements,
+                    'source'         => $source,
+                    'collection_id'  => $this->params['collection_id'],
+                    'element_ids'    => $this->params['element_ids'],
+                    'page_num'       => $pageNum,
+                    'page_cnt'       => $pageCnt,
+                    'medialib_types' => Medialib::GetTypes(),
+                    'medialib_type'  => $this->params['medialib_type'],
                 ]
             )
         );
     }
+
 }

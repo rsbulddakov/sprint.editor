@@ -1,5 +1,5 @@
-sprint_editor.registerBlock('yandex_map', function ($, $el, data) {
-
+sprint_editor.registerBlock('yandex_map', function ($, $el, data, settings, currentEditorParams) {
+    console.log(currentEditorParams);
     var myPlacemark = null;
     var myMap = null;
 
@@ -43,32 +43,19 @@ sprint_editor.registerBlock('yandex_map', function ($, $el, data) {
         return data;
     };
 
-    var mapApiKey = '';
     this.afterRender = function () {
-        if (mapApiKey) {
-            loadMapWithKey(mapApiKey);
-        } else {
-            fetch('/bitrix/admin/sprint.editor/blocks/yandex_map/getMapApiKey.php')
-                .then(response => response.text())
-                .then(data => {
-                    mapApiKey = data.trim();
-                    loadMapWithKey(mapApiKey);
-                })
-                .catch(() => {
-                    loadMapWithKey('');
-                });
+
+        let apiKey = '';
+        if (
+            currentEditorParams.hasOwnProperty('yandexMapApiKey') &&
+            currentEditorParams.yandexMapApiKey
+        ) {
+            apiKey = "&apikey=" + encodeURIComponent(currentEditorParams.yandexMapApiKey);
         }
 
-        function loadMapWithKey(key) {
-            var scriptUrl = "https://api-maps.yandex.ru/2.1/?lang=ru_RU&wizard=bitrix";
-            if (key) {
-                scriptUrl += "&apikey=" + encodeURIComponent(key);
-            }
-
-            $.getScript(scriptUrl, function () {
-                afterLoad();
-            });
-        }
+        $.getScript("https://api-maps.yandex.ru/2.1/?lang=ru_RU&wizard=bitrix" + apiKey, function () {
+            afterLoad()
+        });
     };
 
     function afterLoad() {

@@ -61,27 +61,24 @@ class Image
                 $resized['height'] = $resizeParams['height'];
             }
 
-            if (isset($image['COLLECTION_ID'])) {
-                $image = [
-                    "ID"            => $image["ID"],
-                    "COLLECTION_ID" => $image["COLLECTION_ID"],
-                    "WIDTH"         => $resized["width"],
-                    "HEIGHT"        => $resized["height"],
-                    "SRC"           => self::urlencodePath($resized["src"]),
-                    "ORIGIN_SRC"    => self::urlencodePath($image['SRC']),
-                    "NAME"          => $image['NAME'],
-                    "DESCRIPTION"   => htmlspecialcharsbx($image['DESCRIPTION']),
-                ];
-            } else {
-                $image = [
-                    "ID"         => $image["ID"],
-                    "WIDTH"      => $resized["width"],
-                    "HEIGHT"     => $resized["height"],
-                    "SRC"        => self::urlencodePath($resized["src"]),
-                    "ORIGIN_SRC" => self::urlencodePath($image['SRC']),
-                ];
-            }
+            $image["WIDTH"] = $resized["width"];
+            $image["HEIGHT"] = $resized["height"];
+            $image["SRC"] = $resized["src"];
+            $image["ORIGIN_SRC"] = $image['SRC'];
         }
+
+        if (isset($image["SRC"])) {
+            $image["SRC"] = self::urlencodePath($image["SRC"]);
+        }
+
+        if (isset($image["ORIGIN_SRC"])) {
+            $image["ORIGIN_SRC"] = self::urlencodePath($image['ORIGIN_SRC']);
+        }
+
+        if (isset($image['DESCRIPTION'])) {
+            $image['DESCRIPTION'] = htmlspecialcharsbx($image['DESCRIPTION']);
+        }
+
         return $image;
     }
 

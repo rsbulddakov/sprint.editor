@@ -8,12 +8,12 @@ use DirectoryIterator;
 
 class AdminEditor
 {
-    protected static int   $initCounts          = 0;
-    protected static array $css                 = [];
-    protected static array $js                  = [];
-    protected static array $allblocks           = [];
-    protected static array $templates           = [];
-    protected static array $baseBlockSettings   = [];
+    protected static int $initCounts = 0;
+    protected static array $css = [];
+    protected static array $js = [];
+    protected static array $allblocks = [];
+    protected static array $templates = [];
+    protected static array $baseBlockSettings = [];
     protected static array $baseComplexSettings = [];
 
     public static function init($params)
@@ -139,6 +139,7 @@ class AdminEditor
             'userSettings'     => $userSettings,
             'layoutsToolbar'   => $layoutsToolbar,
             'blocksToolbar'    => $blocksToolbar,
+            'yandexMapApiKey'  => \Bitrix\Main\Config\Option::get('fileman', 'yandex_map_api_key'),
         ];
 
         return Module::templater(

@@ -20,26 +20,40 @@ class Medialib
         }
     }
 
-    public static function GetCollections($filter = [])
+    public static function GetTypes()
     {
-        self::initialize();
+        return array_map(
+            fn($mltype) => ['code' => $mltype['code'], 'name' => $mltype['name']],
+            CMedialib::GetTypes()
+        );
+    }
+
+    public static function GetTypeIdByCode($code)
+    {
         $mltypes = CMedialib::GetTypes();
 
-        $filter['type'] = $filter['type'] ?? 'image';
-
-        $typeid = 0;
         foreach ($mltypes as $mltype) {
-            if ($mltype['code'] == $filter['type']) {
-                $typeid = $mltype['id'];
-                break;
+            if ($mltype['code'] == $code) {
+                return (int)$mltype['id'];
             }
         }
 
-        if ($typeid > 0) {
+        return 0;
+    }
+
+    public static function GetCollections($filter = [])
+    {
+        self::initialize();
+
+        $medialibType = $filter['medialib_type'] ?? 'image';
+
+        $medialibTypeId = self::GetTypeIdByCode($medialibType);
+
+        if ($medialibTypeId > 0) {
             return CMedialibCollection::GetList(
                 [
                     'arFilter' => [
-                        'TYPES' => [$typeid],
+                        'TYPES' => [$medialibTypeId],
                     ],
                 ]
             );
@@ -59,6 +73,18 @@ class Medialib
             'page_count' => 1,
             'page_num'   => 1,
         ];
+
+
+        $medialibType = $filter['medialib_type'] ?? 'image';
+
+        $resizePreview = array_merge(
+            [
+                'width'  => COption::GetOptionInt('fileman', "ml_thumb_width", 140),
+                'height' => COption::GetOptionInt('fileman', "ml_thumb_height", 105),
+                'exact'  => 0,
+            ], $resizePreview
+        );
+
 
         $whereQuery = [];
         if (!empty($filter['collection_id'])) {
@@ -107,14 +133,6 @@ class Medialib
             $navoffsset = ($pagenum - 1) * $pagesize;
             $limitQuery = 'LIMIT ' . $navoffsset . ',' . $pagesize;
         }
-
-        $resizePreview = array_merge(
-            [
-                'width'  => COption::GetOptionInt('fileman', "ml_thumb_width", 140),
-                'height' => COption::GetOptionInt('fileman', "ml_thumb_height", 105),
-                'exact'  => 0,
-            ], $resizePreview
-        );
 
         $q = "SELECT MI.*,MCI.COLLECTION_ID, F.HEIGHT, F.WIDTH, F.FILE_SIZE, F.CONTENT_TYPE, F.SUBDIR, F.FILE_NAME, F.HANDLER_ID
             FROM 

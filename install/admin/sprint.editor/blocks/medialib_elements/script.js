@@ -1,6 +1,7 @@
 sprint_editor.registerBlock('medialib_elements', function ($, $el, data) {
 
     data = $.extend({
+        medialib_type: 'image',
         element_ids: []
     }, data);
 
@@ -20,20 +21,34 @@ sprint_editor.registerBlock('medialib_elements', function ($, $el, data) {
 
     this.collectData = function () {
         data.element_ids = findElementIds();
+        data.medialib_type = findMedialibType();
         return data;
     };
 
     this.afterRender = function () {
         $el.on('change', '.sp-select-collection', function () {
             sendrequest({
+                medialib_type: findMedialibType(),
                 collection_id: findCollectionId(),
                 element_ids: findElementIds(),
-                page: 1
+                page: 1,
+            });
+        });
+        $el.on('change', '.sp-select-types', function () {
+            let mtype = findMedialibType();
+            let elems = mtype === data.medialib_type ? data.element_ids : [];
+
+            sendrequest({
+                medialib_type: mtype,
+                collection_id: 0,
+                element_ids: elems,
+                page: 1,
             });
         });
 
         $el.on('click', '.sp-nav-left', function () {
             sendrequest({
+                medialib_type: findMedialibType(),
                 collection_id: findCollectionId(),
                 element_ids: findElementIds(),
                 page: navparams.page_left
@@ -42,22 +57,29 @@ sprint_editor.registerBlock('medialib_elements', function ($, $el, data) {
 
         $el.on('click', '.sp-nav-right', function () {
             sendrequest({
+                medialib_type: findMedialibType(),
                 collection_id: findCollectionId(),
                 element_ids: findElementIds(),
                 page: navparams.page_right
             });
         });
 
+        $el.on('click', '.sp-item-del', function () {
+            $(this).closest('.sp-item').remove();
+        });
         sendrequest({
+            medialib_type: data.medialib_type,
             element_ids: data.element_ids,
         });
 
     };
 
     var findCollectionId = function () {
-        return intval(
-            $el.find('.sp-select-collection').val()
-        );
+        return $el.find('.sp-select-collection').val();
+    };
+
+    var findMedialibType = function () {
+        return $el.find('.sp-select-types').val();
     };
 
     var findElementIds = function () {
@@ -105,8 +127,20 @@ sprint_editor.registerBlock('medialib_elements', function ($, $el, data) {
                     navparams.page_right = result.page_num + 1;
                 }
 
+                let tpl = '';
+                if (result.medialib_type === 'image') {
+                    tpl = 'medialib_elements-images';
+                    $el.addClass('type-image')
+                } else {
+                    tpl = 'medialib_elements-elements';
+                    $el.removeClass('type-image')
+                }
+
                 $jresult.html(
-                    sprint_editor.renderTemplate('medialib_elements-select', result)
+                    sprint_editor.renderTemplate('medialib_elements-select', $.extend({
+                        source_html: sprint_editor.renderTemplate(tpl, {elements: result.source, show_del: false}),
+                        elements_html: sprint_editor.renderTemplate(tpl, {elements: result.elements, show_del: true}),
+                    }, result))
                 );
 
                 var $elem = $jresult.find('.sp-elements');

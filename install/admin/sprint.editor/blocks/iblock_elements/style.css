@@ -39,6 +39,7 @@
 .sp-block-iblock_elements .sp-elements {
     background: #eee;
     min-height: 35px;
+    padding: 7px 7px 10px;
 }
 
 .sp-block-iblock_elements .sp-item.ui-draggable-dragging {
