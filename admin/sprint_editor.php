@@ -22,9 +22,19 @@ require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/prolog_admin_a
 
 $request = Bitrix\Main\Context::getCurrent()->getRequest();
 
-$showpage = preg_replace("/[^a-z0-9_]/", "", $request->get('showpage'));
 
-if ($showpage && file_exists(__DIR__ . '/pages/' . $showpage . '.php')) {
+$pages = [
+    'packs_builder',
+    'complex_builder',
+    'support',
+    'trash_files',
+];
+$showpage = $request->get('showpage');
+if (!preg_match('/^[a-z0-9_]+$/', $showpage)) {
+    $showpage = '';
+}
+
+if (in_array($showpage, $pages, true) && file_exists(__DIR__ . '/pages/' . $showpage . '.php')) {
     include __DIR__ . '/pages/' . $showpage . '.php';
 }
 

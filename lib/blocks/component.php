@@ -55,10 +55,16 @@ class Component
 
     static protected function calcRequestExpression($str)
     {
+        $request = \Bitrix\Main\Context::getCurrent()->getRequest();
+
         $str = substr($str, 12, -2);
         $str = trim($str, ' \'"');
-        $str = isset($_REQUEST[$str]) ? $_REQUEST[$str] : '';
-        return $str;
+
+        if (!preg_match('/^[a-z0-9_]+$/i', $str)) {
+            return '';
+        }
+
+        return $request->get($str);
     }
 
     static protected function calcRequestGetExpression($str)

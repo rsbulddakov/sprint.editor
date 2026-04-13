@@ -24,11 +24,16 @@ if (CModule::IncludeModule('sprint.editor')) {
 
     if ($request->get('load')) {
         $packid = $request->get('load');
-        $dir = Sprint\Editor\Module::getPacksDir();
-        $file = $dir . $packid . '.json';
-        if (is_file($file)) {
-            $result = file_get_contents($dir . $packid . '.json');
-            $result = json_decode($result, true);
+        if (preg_match('/^[a-z0-9_\-]+$/i', $packid)) {
+            $dir = Sprint\Editor\Module::getPacksDir();
+            $file = $dir . $packid . '.json';
+            if (is_file($file)) {
+                $result = file_get_contents($dir . $packid . '.json');
+                $result = json_decode($result, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    $result = [];
+                }
+            }
         }
     }
 }

@@ -6,10 +6,10 @@ document.addEventListener("DOMContentLoaded", function (e) {
             '<br>' +
             'Именно благодаря активности участников в редакторе появилось большинство существующих блоков, настроек и возможностей.' +
             '<br>' +
-            'Примеры улучшений на вкладке <a href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/#tab-log-link" target="_blank">Что нового</a>' +
+            'Примеры улучшений на вкладке <a href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/#tab-log-link" target="_blank" rel="noopener noreferrer">Что нового</a>' +
             '<br><br>' +
-            'Предложить свою идею по улучшению можно в <a href="https://t.me/sprint_editor" target="_blank">telegram-группе</a>' +
-            'или на вкладке <a href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/#tab-comments-link" target="_blank">Обсуждения</a>' +
+            'Предложить свою идею по улучшению можно в <a href="https://t.me/sprint_editor" target="_blank" rel="noopener noreferrer">telegram-группе</a>' +
+            'или на вкладке <a href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/#tab-comments-link" target="_blank" rel="noopener noreferrer">Обсуждения</a>' +
             '<br>' +
             'Появление вашей идеи в списке ниже означает, что она реализуема, полезна и взята в работу.' +
             '<br>' +

@@ -401,14 +401,21 @@ class UploadHandler
 
     protected function readfile($file_path)
     {
+        $file_path = realpath($file_path);
+        if (!$file_path || !is_file($file_path) || !is_readable($file_path)) {
+            return false;
+        }
         $file_size = $this->get_file_size($file_path);
-        $chunk_size = $this->options['readfile_chunk_size'];
+        $chunk_size = (int)$this->options['readfile_chunk_size'];
         if ($chunk_size && $file_size > $chunk_size) {
             $handle = fopen($file_path, 'rb');
+            if ($handle === false) {
+                return false;
+            }
             while (!feof($handle)) {
                 echo fread($handle, $chunk_size);
-                @ob_flush();
-                @flush();
+                ob_flush();
+                flush();
             }
             fclose($handle);
             return $file_size;

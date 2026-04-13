@@ -9822,10 +9822,17 @@ jQuery.extend( {
 
 		return jqXHR;
 	},
-
-	getJSON: function( url, data, callback ) {
-		return jQuery.get( url, data, callback, "json" );
-	},
+    getJSON: function(url, data, callback) {
+        return $.ajax({
+            url: url,
+            type: "GET",
+            data: data,
+            dataType: "json",
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        }).done(callback);
+    },
 
 	getScript: function( url, callback ) {
 		return jQuery.get( url, undefined, callback, "script" );

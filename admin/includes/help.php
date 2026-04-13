@@ -23,14 +23,14 @@ $isSettinsPage = strpos($APPLICATION->GetCurPage(), 'settings.php');
             <div class="sp-help-text">
                 <?= GetMessage('SPRINT_EDITOR_HELP_MARKETPLACE') ?>
                 <br/>
-                <a target="_blank" href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/">
+                <a target="_blank" rel="noopener noreferrer" href="https://marketplace.1c-bitrix.ru/solutions/sprint.editor/">
                     https://marketplace.1c-bitrix.ru/solutions/sprint.editor/
                 </a>
             </div>
             <div class="sp-help-text">
                 <?= GetMessage('SPRINT_EDITOR_HELP_COMPOSER') ?>
                 <br/>
-                <a href="https://packagist.org/packages/andreyryabin/sprint.editor" target="_blank">
+                <a href="https://packagist.org/packages/andreyryabin/sprint.editor" target="_blank" rel="noopener noreferrer">
                     https://packagist.org/packages/andreyryabin/sprint.editor
                 </a>
             </div>

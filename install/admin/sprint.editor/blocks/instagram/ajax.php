@@ -15,12 +15,16 @@ global $APPLICATION;
 global $USER;
 global $DB;
 
-if (CModule::IncludeModule('sprint.editor')) {
-    echo Sprint\Editor\Blocks\Instagram::getHtml(
-        [
-            'url' => $_REQUEST['url'],
-        ]
-    );
+$url = $_GET['url'] ?? '';
+
+if (filter_var($url, FILTER_VALIDATE_URL)) {
+    if (CModule::IncludeModule('sprint.editor')) {
+        echo Sprint\Editor\Blocks\Instagram::getHtml(
+            [
+                'url' => $url,
+            ]
+        );
+    }
 }
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_after.php");
